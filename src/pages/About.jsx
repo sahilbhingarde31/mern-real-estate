@@ -4,8 +4,8 @@ export default function About() {
   return (
     <div>
       <h1>About</h1>
-      <h3>Welcome to About Page</h3><br />
-        
+      <hr /><br />
+      <h3>Welcome to About Page</h3>
     </div>
   )
 }
