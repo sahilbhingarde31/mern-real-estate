@@ -14,6 +14,9 @@ export default function Signup() {
   };
   const handleSubmit = async(e) =>{
     e.preventDefault();
+
+    // for response and submit formdata into database
+    
     try {
       setLoading(true);
     const res = await fetch('/api/auth/signup', 
@@ -34,7 +37,7 @@ export default function Signup() {
     }
     setLoading(false);
     setError(null);
-    navigate('/sign-in');
+    navigate('/sign-in'); // use for naviagte signup page to signin page
     } catch (error) {
       setLoading(false);
       setError(error.message);
