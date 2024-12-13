@@ -6,7 +6,7 @@ import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 dotenv.config(); 
 
-// create connection to the database i.e MongoDb
+ 
 mongoose
 .connect(process.env.MONGO)
 .then(()=>{
@@ -16,7 +16,7 @@ mongoose
     console.log(err);
 })
 
-// create a server through express.js
+
 const app = express();
 
 app.use(express.json());
@@ -30,7 +30,7 @@ app.listen(3000,()=>{
 app.use('/api/user',userRouter);
 app.use('/api/auth',authRouter);
 
-//create a middleware or errorhandler
+
 app.use((err, req, res, next) =>{
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
