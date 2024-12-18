@@ -45,7 +45,7 @@ export default function Signin() {
     }
   };
   return (
-    <div className='mt-10 p-3 max-w-lg mx-auto shadow-lg shadow:opacity-0 bg-slate-200'>
+    <div className='my-9 p-3 max-w-lg mx-auto shadow-lg shadow:opacity-0 bg-slate-200'>
       <h1 className='text-3xl text-center underline font-serif my-7'>Sign In</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input type="email" id="email" placeholder='E-mail' className='border-none p-3 rounded-lg font-semibold text-center' onChange={handleChange}/>
