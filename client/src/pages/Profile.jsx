@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from "../firebase";
-import {updateuserStart, updateuserSuccess, updateuserFailure, deleteuserFailure, deleteuserStart, deleteuserSuccess } from '../redux/user/userSlice.js';
+import {updateuserStart, updateuserSuccess, updateuserFailure, deleteuserFailure, deleteuserStart, deleteuserSuccess, signoutStart, signoutFailure, signoutSuccess } from '../redux/user/userSlice.js';
 import { useDispatch } from "react-redux";
 
 export default function Profile() {
@@ -25,7 +25,8 @@ export default function Profile() {
       handleFileUpload(file);
     }
   },[file]);
-
+   
+    // create EventHandler for FileUpload
   const handleFileUpload = (file) =>{
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
@@ -50,10 +51,12 @@ export default function Profile() {
     );
   };
 
+   // create EventHandler for Changing the data
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value});
   };
 
+    // create EventHandler for Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -79,6 +82,7 @@ export default function Profile() {
     }
   };
 
+  // create EventHandler for DeleteUser account
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteuserStart());
@@ -94,7 +98,23 @@ export default function Profile() {
     } catch (error) {
       dispatch(deleteuserFailure(error.message));
     }
-  }
+  };
+
+  // create EventHandler for SignOut 
+  const handlesignout = async () => {
+    try {
+      dispatch(signoutStart());
+      const res = await fetch('/api/auth/signout');
+      const data = await res.json();
+      if(data.success === false){
+        dispatch(deleteuserFailure(data.message));
+        return;
+      }
+      dispatch(deleteuserSuccess(data));
+    } catch (error) {
+      dispatch(deleteuserFailure(data.message));
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto my-9 p-3 max-w-lg mx-auto shadow-lg shadow:opacity-0 bg-slate-200">
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -150,7 +170,7 @@ export default function Profile() {
       </form>
       <div className="flex justify-between mt-5">
         <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
-        <span className="text-red-700 cursor-pointer">Sign out</span>
+        <span onClick={handlesignout} className="text-red-700 cursor-pointer">Sign out</span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ''}</p>
       <p className="text-green-700 mt-5">{updateSuccess ? 'user is updated Successfully!' : ''}</p>
