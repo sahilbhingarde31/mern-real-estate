@@ -14,6 +14,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
   // firebase storage
   // allow Read;
@@ -75,7 +77,6 @@ export default function Profile() {
           dispatch(updateuserFailure(data.message));
           return;
         }
-
         dispatch(updateuserSuccess(data));
         setUpdateSuccess(true);
     } catch (error) {
@@ -116,6 +117,21 @@ export default function Profile() {
       dispatch(deleteuserFailure(data.message));
     }
   };
+
+  const handleShowListings = async () =>{
+    try {
+      setShowListingError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if(data.success === false){
+        setShowListingError(true);
+        return;
+      }
+      setUserListings(data);
+    } catch (error) {
+      setShowListingError(true);
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto my-9 p-3 max-w-lg mx-auto shadow-lg shadow:opacity-0 bg-slate-200">
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -182,6 +198,32 @@ export default function Profile() {
       </div>
       <p className="text-red-700 mt-5">{error ? error : ''}</p>
       <p className="text-green-700 mt-5">{updateSuccess ? 'user is updated Successfully!' : ''}</p>
+      <button  
+       onClick={handleShowListings} 
+       className="text-green-700 w-full hover:underline hover:opacity-70"
+       >
+        Show Listings
+      </button>
+      <p>{showListingError ? 'Error Showing in Listings' : ''}</p>
+      {userListings && userListings.length > 0 && 
+       <div className="flex flex-col gap-4"> 
+       <h1 className="text-center mt-7 text-2xl font-semibold">Your Listings</h1>
+         {userListings.map((listing) => {
+         return (
+          <div key={listing._id} className="border rounded-lg p-3 flex justify-between items-center gap-4">
+            <Link to={`/listing/${listing._id}`}>
+             <img src={listing.imageUrls[0]} alt="listing cover"  className="h-20 w-16 object-contain"/>
+            </Link>
+            <Link className="text-slate-700 font-semibold flex-1 hover:underline truncate" to={`/listing/${listing._id}`}>
+            <p>{listing.name}</p>
+            </Link>
+            <div className="flex flex-col items-center">
+              <button className="text-red-700 font-semibold hover:underline hover:opacity-75">DELETE</button>
+              <button className="text-green-700 font-semibold hover:underline hover:opacity-75">EDIT</button>
+            </div>
+         </div>);})}
+        </div>
+      }
     </div>
   )
 }
