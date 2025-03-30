@@ -235,7 +235,9 @@ export default function Profile() {
             </Link>
             <div className="flex flex-col items-center">
               <button type="button" onClick={() => handleListingDelete(listing._id)} className="text-red-700 font-semibold hover:underline hover:opacity-75">DELETE</button>
+              <Link to={`/update-listing/${listing._id}`}>
               <button className="text-green-700 font-semibold hover:underline hover:opacity-75">EDIT</button>
+              </Link>
             </div>
          </div>);})}
         </div>
