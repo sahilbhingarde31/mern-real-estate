@@ -87,7 +87,7 @@ export default function Listing() {
             }
             <div className="flex flex-col max-w-4xl mx-auto p-3 my-5 gap-4">
                 <p className='text-2xl font-semibold'>
-                {listing.name} -{' '}
+                {listing.name} - ₹{' '}
                 {listing.offer
                    ? listing.discountPrice.toLocaleString('en-IN')  // Correct method and locale for Indian Rupees
                    : listing.regularPrice.toLocaleString('en-IN')
@@ -105,12 +105,12 @@ export default function Listing() {
                     {
                         listing.offer && (
                             <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                                Rupees: {+listing.regularPrice - +listing.discountPrice }/- OFF
+                                ₹ {+listing.regularPrice - +listing.discountPrice }/- OFF
                             </p>
                         )
                     }
                 </div>
-                <p className='text-slate-800'>
+                <p className='text-slate-800 truncate'>
                     <span className='font-semibold text-black'>Description - {' '} </span>
                     {listing.description}
                 </p>
