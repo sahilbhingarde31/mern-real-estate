@@ -27,7 +27,7 @@ export default function header() {
         <div className='flex justify-between items-center max-w-6xl mx-auto p-3'> 
         <Link to='/'>
          <div className="flex gap-2 hover:underline">
-           <img className='w-8 h-8 rounded-lg flex' src="/company logo/logo.png" alt="" />
+           <img className='w-8 h-8 rounded-lg flex' src="logo.png" alt="" />
            <h1 className='font-bold text-sm:text-xl flex flex-wrap '>
              <span className='text-slate-500 text-xl'>Home</span>
              <span className='text-slate-700 text-xl'>Haven</span>
